@@ -13,7 +13,6 @@ Pequeña aplicación web para guardar el historial de los partidos del **Club Bo
 - **Edición y eliminación** de cada partido.
 - **Datos 100% locales:** se guardan en el navegador con `localStorage`, sin cuentas ni servidores.
 - **Exportar e importar** el historial en formato JSON para hacer respaldos o pasarlo a otro dispositivo.
-- **PWA instalable:** se puede agregar a la pantalla de inicio y funciona sin conexión.
 - **Diseño responsive** para computadora y teléfono.
 
 ## 🚀 Cómo usarla
@@ -55,7 +54,6 @@ Luego abre `index.html` con doble clic en tu navegador. No necesita instalación
 - **CSS3** con Grid, Flexbox y media queries.
 - **JavaScript vanilla**, sin frameworks ni dependencias.
 - **Web Storage API** (`localStorage`) para persistencia local.
-- **PWA**: manifest, service worker y funcionamiento offline.
 
 ---
 
