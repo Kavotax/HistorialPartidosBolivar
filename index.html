@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mi historial · Bolívar</title>
+  <meta name="description" content="Registro personal de los partidos del Bolívar a los que fui al estadio.">
+  <meta name="theme-color" content="#071a2e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Historial Bolívar">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" href="icons/escudo-bolivar.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/escudo-bolivar-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero__inner">
+      <div class="brand">
+        <img class="brand__logo" src="icons/escudo-bolivar.svg" alt="" aria-hidden="true" width="48" height="48">
+        <div>
+          <p class="brand__kicker">Club Bolívar · La Paz</p>
+          <h1>Mi historial en el estadio</h1>
+          <p class="brand__tagline">¿A quién le dicen papá?</p>
+        </div>
+      </div>
+      <button class="btn btn--primary" id="btnAdd" type="button">
+        <span class="btn__plus" aria-hidden="true">+</span> Registrar partido
+      </button>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="stats" id="stats" aria-label="Resumen del historial"></section>
+    <p class="stats-note" id="statsNote" hidden></p>
+
+    <section class="toolbar" aria-label="Buscar y filtrar partidos">
+      <label class="sr-only" for="search">Buscar partidos</label>
+      <input type="search" id="search" class="search" placeholder="Buscar rival, torneo o estadio…" autocomplete="off">
+
+      <label class="sr-only" for="filterResult">Filtrar por resultado</label>
+      <select id="filterResult">
+        <option value="todas">Todos los resultados</option>
+        <option value="victoria">Victorias</option>
+        <option value="empate">Empates</option>
+        <option value="derrota">Derrotas</option>
+      </select>
+
+      <label class="sr-only" for="filterTorneo">Filtrar por torneo</label>
+      <select id="filterTorneo">
+        <option value="todos">Todos los torneos</option>
+      </select>
+    </section>
+
+    <section class="list" id="list" aria-live="polite"></section>
+
+    <footer class="footer">
+      <div class="footer__actions">
+        <button class="btn-mini" id="btnInstall" type="button" hidden>Instalar app</button>
+        <button class="btn-mini" id="btnExport" type="button">Exportar</button>
+        <label class="btn-mini file-label">
+          Importar
+          <input type="file" id="importInput" accept=".json,application/json">
+        </label>
+        <button class="btn-mini btn-mini--danger" id="btnClear" type="button">Borrar todo</button>
+      </div>
+    </footer>
+  </main>
+
+  <dialog id="dialog" class="dialog" aria-labelledby="dlgTitle">
+    <form id="form" class="dialog__form">
+      <div class="dialog__head">
+        <h2 id="dlgTitle">Registrar partido</h2>
+        <button class="icon-btn" id="btnClose" type="button" aria-label="Cerrar">✕</button>
+      </div>
+
+      <div class="field-grid">
+        <label class="field">
+          <span>Fecha</span>
+          <input type="date" id="fecha" required>
+        </label>
+
+        <label class="field">
+          <span>Torneo</span>
+          <select id="torneo">
+            <option value="Primera División">Primera División</option>
+            <option value="Copa Bolivia">Copa Bolivia</option>
+            <option value="Copa Libertadores">Copa Libertadores</option>
+            <option value="Copa Sudamericana">Copa Sudamericana</option>
+            <option value="Amistoso">Amistoso</option>
+          </select>
+        </label>
+
+        <label class="field field--full">
+          <span>Rival</span>
+          <input type="text" id="rival" list="listaRivales" placeholder="Ej. The Strongest" required autocomplete="off" maxlength="80">
+        </label>
+
+        <div class="score-row">
+          <label class="field">
+            <span>Goles de Bolívar</span>
+            <input type="number" id="gf" min="0" max="99" inputmode="numeric" required>
+          </label>
+          <span class="score-row__dash" aria-hidden="true">–</span>
+          <label class="field">
+            <span>Goles del rival</span>
+            <input type="number" id="gc" min="0" max="99" inputmode="numeric" required>
+          </label>
+        </div>
+
+        <label class="field field--full">
+          <span>Estadio</span>
+          <input type="text" id="estadio" placeholder="Estadio Hernando Siles" maxlength="80">
+        </label>
+
+        <label class="field field--full">
+          <span>Notas <span class="field__hint">(opcional)</span></span>
+          <textarea id="notas" rows="3" maxlength="500" placeholder="Con quién fui, en qué sector, algo para recordar…"></textarea>
+        </label>
+      </div>
+
+      <p class="preview" id="preview"></p>
+
+      <div class="dialog__actions">
+        <button class="btn btn--ghost" id="btnCancel" type="button">Cancelar</button>
+        <button class="btn btn--primary" id="btnSave" type="submit">Guardar partido</button>
+      </div>
+    </form>
+  </dialog>
+
+  <datalist id="listaRivales">
+    <option value="The Strongest"></option>
+    <option value="Oriente Petrolero"></option>
+    <option value="Blooming"></option>
+    <option value="Real Santa Cruz"></option>
+    <option value="Always Ready"></option>
+    <option value="Aurora"></option>
+    <option value="Wilstermann"></option>
+    <option value="Nacional Potosí"></option>
+    <option value="Guabirá"></option>
+    <option value="Royal Pari"></option>
+    <option value="San José"></option>
+    <option value="Real Potosí"></option>
+    <option value="Universitario"></option>
+    <option value="Independiente Petrolero"></option>
+    <option value="Libertad Gran Mamoré"></option>
+    <option value="GV San José"></option>
+  </datalist>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
